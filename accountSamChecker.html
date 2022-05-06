@@ -1,0 +1,53 @@
+<template>
+    <lightning-card title="Check SAM.GOV" icon-name="custom:custom63">
+            <lightning-input type="text" label="Enter UEI or Cage Code" value={idSAM} class="slds-card__body_inner"></lightning-input>
+                <lightning-button label="Check" onclick={handleClick} class="slds-m-left_x-small "></lightning-button>
+                <div class="slds-card__body slds-card__body_inner">
+                    <!-- Version 3.0 -->
+                    <h2><b>Displaying SAM Information</b>
+                        <br>
+                    </h2>
+                    <h3>{output}</h3>
+                <template if:true={samRecord}>
+                    <p> 
+                        <br>
+                        <b>UEI Information:</b>
+                        <br><b>UEI Creation Date:</b> {samRecord.ueiCreationDate} 
+                    </p>
+                    <p><b>UEI Status:</b> {samRecord.ueiStatus} </p>
+                    <p><b>SAM UEI:</b> {samRecord.ueiSAM} </p>
+                    <br>
+                    <b>Cage Information:</b>
+                    <p><b>Cage Code:</b> {samRecord.cageCode} </p>
+                    <p><b>Registration Status:</b> {samRecord.registrationStatus} </p>
+                    <p><b>SAM Expiration Date:</b> {samRecord.registrationExpirationDate} </p>
+                    <br>
+                    <b>Business Information:</b>
+                    <p><b>Legal Business Name: </b>{samRecord.legalBusinessName} </p>
+                    <p><b>DBA: </b>{samRecord.dbaName} </p>
+                    <p><b>Purpose of Registration:</b> {samRecord.purposeOfRegistrationDesc} </p>
+                    <p><b>Primary NAICS:</b> {samRecord.primaryNaics} </p>
+                    <template if:true={naics}>
+                    <p><b>Additional NAICS:</b></p>
+                        <template for:each={naics} for:item="item">
+                            <p key={item.id}><b>-</b> {item.val}</p>
+                        </template>
+                    </template>
+                    <br>
+                    <template if:true={psc}>
+                    <p><b>PSC Codes:</b></p>
+                        <template for:each={psc} for:item="item">
+                            <p key={item.id}><b>-</b> {item.val}</p>
+                        </template>
+                    </template>
+                    <br>
+                    <p><b>Physical Business Address:</b> {samRecord.physicalAddress.addressLine1} {samRecord.physicalAddress.city}, {samRecord.physicalAddress.stateOrProvinceCode} {samRecord.physicalAddress.zipCode}-{samRecord.physicalAddress.zipCodePlus4}</p>
+                    <p><b>Mailing Address:</b> {samRecord.mailingAddress.addressLine1} {samRecord.mailingAddress.city} {samRecord.mailingAddress.stateOrProvinceCode} {samRecord.mailingAddress.zipCode}-{samRecord.mailingAddress.zipCodePlus4}</p>
+                </template>
+                <template if:true={error}>
+                    <p><b>Whoops! {error} </b></p>
+                </template>
+
+                </div>
+            </lightning-card>
+</template>
